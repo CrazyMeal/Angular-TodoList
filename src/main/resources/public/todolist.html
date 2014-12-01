@@ -5,13 +5,13 @@
 <form id="creationForm" role="form" collapse="creatingNewTodo">
 	<div class="form-group">
 		<label>Title</label>
-		<input placeholder="{{newTodo.title}}" class="form-control" ></input>
+		<input placeholder="Titre" ng-model="newTodo.title" class="form-control" ></input>
 	</div>
 	<div class="form-group">
 		<label>Description</label>	
-		<textarea placeholder="{{newTodo.description}}" class="form-control" ></textarea>
+		<textarea placeholder="Description" ng-model="newTodo.description" class="form-control" ></textarea>
 	</div>
-	<a type="submit" ng-click="" class="btn btn-primary">Créer la Todo</a>
+	<a type="submit" ng-click="postnew()" class="btn btn-primary">Créer la Todo</a>
 </form>
 
 <accordion close-others="true">

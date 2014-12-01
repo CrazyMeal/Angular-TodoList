@@ -21,21 +21,16 @@ import todo.TodoTaskRepository;
 public class TodoTaskRestController {
 	private final TodoTaskRepository todoTaskRepository;
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST,produces = "application/json")
 	ResponseEntity<?> add(@RequestBody TodoTask input) {
-		//this.validateUser(userId);
-		
-		
-		//TodoTask account = this.todoTaskRepository.findById(Long.valueOf(todoId));
-		
 		TodoTask result = todoTaskRepository.save(new TodoTask(input.title, input.description));
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri());
-		return new ResponseEntity<>(null,httpHeaders,HttpStatus.CREATED);
+		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(result.getId()).toUri());
+		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.ACCEPTED);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET,produces = "application/json")
 	Collection<TodoTask> readBookmarks() {
 		//this.validateUser(userId);
 		return this.todoTaskRepository.findAll();

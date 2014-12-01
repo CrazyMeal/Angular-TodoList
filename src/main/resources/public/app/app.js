@@ -1,9 +1,8 @@
 var app = angular.module('todolist-app', ['ui.bootstrap','ngRoute','ngResource']);
 
 app.factory('TodoFactory', ['$resource', function($resource) {
-	return $resource('/todo', {});
+    return $resource('/todo', {});
 }]);
-
 app.config(function($routeProvider, $locationProvider) {
 	  
 	$routeProvider
@@ -13,12 +12,12 @@ app.config(function($routeProvider, $locationProvider) {
 	   });
 });
 
-app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory) {
+app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory, $timeout) {
     $scope.params = $routeParams;
     $scope.creatingNewTodo = true;
     $scope.newTodo = {
-    	title: "Titre",
-    	description: "Description"
+    	title: "",
+    	description: ""
     };
     $scope.todolist = TodoFactory.query();
     
@@ -53,13 +52,21 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory)
     
     $scope.postnew = function(){
     	$scope.todoTaskPost = new TodoFactory();
-    	$scope.todoTaskPost.title = "Un titre de ouf";
-    	$scope.todoTaskPost.description = "Description de malade";
-    	//$scope.createTodoTask = function(){
+    	$scope.todoTaskPost.title = $scope.newTodo.title;
+    	$scope.todoTaskPost.description = $scope.newTodo.description;
     		
-    		$scope.todoTaskPost.$save();
-    		
-    	//};
+    	$scope.todoTaskPost.$save();
+    	$scope.creatingNewTodo = true;
+    	var refresh = function(){
+    		$scope.todolist = TodoFactory.query();
+    	}
+    	$timeout(refresh, 300); 
+
+    	$scope.newTodo = {
+    	    	title: "",
+    	    	description: ""
+    	};
+    	console.log($scope.todolist);
     };
 });
 
