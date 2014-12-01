@@ -25,7 +25,7 @@ public class TodoTask {
 	public TodoTask(String title, String description){
 		this.title = title;
 		this.description = description;
-		this.state = State.NotFinished;
+		this.state = State.notFinished;
 		this.collapse = false;
 		//this.owner = owner;
 	}

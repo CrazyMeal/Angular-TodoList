@@ -1,5 +1,5 @@
 package todo;
 
 public enum State {
-	NotFinished, Finished
+	notFinished, finished, inProgress
 }
