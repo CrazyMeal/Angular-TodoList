@@ -15,7 +15,11 @@ app.config(function($routeProvider, $locationProvider) {
 
 app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory) {
     $scope.params = $routeParams;
-
+    $scope.creatingNewTodo = true;
+    $scope.newTodo = {
+    	title: "Titre",
+    	description: "Description"
+    };
     $scope.todolist = TodoFactory.query();
     
     $scope.remove = function(event, id){

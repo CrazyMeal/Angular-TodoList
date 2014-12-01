@@ -4,9 +4,25 @@ body{
 h1{
 	color: white;
 }
+.customChevron{
+	padding-right: 5px;
+}
+.center{
+	text-align: center;
+}
 #container{
 	margin: auto;
 	width: 500px;
+}
+
+#creationForm{
+	background-color: white;
+	border-radius: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
 }
 .progress{
 	width: 50px;
@@ -19,5 +35,4 @@ h1{
 .removeButton{
 	padding: 0 0;
 	margin-left: 5px;
-	margin-right: 10px;
 }

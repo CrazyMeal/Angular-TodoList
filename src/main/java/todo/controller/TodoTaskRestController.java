@@ -33,8 +33,6 @@ public class TodoTaskRestController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri());
 		return new ResponseEntity<>(null,httpHeaders,HttpStatus.CREATED);
-		
-
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
