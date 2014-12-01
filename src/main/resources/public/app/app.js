@@ -17,4 +17,5 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory)
     $scope.params = $routeParams;
 
     $scope.todolist = TodoFactory.query();
+    console.log($scope.todolist);
 });
