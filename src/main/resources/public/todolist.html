@@ -1,4 +1,3 @@
 
-	<ul>
-		<li ng-repeat="task in todolist">{{task.title}}</li>
-	</ul>
+	
+		<div ng-repeat="task in todolist" collapse="{{task.collapse}}">{{task.title}}<span >{{task.description}}</span></div>

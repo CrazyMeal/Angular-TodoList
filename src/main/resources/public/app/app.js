@@ -1,4 +1,4 @@
-var app = angular.module('todolist-app', ['ngRoute','ngResource']);
+var app = angular.module('todolist-app', ['ui.bootstrap','ngRoute','ngResource']);
 
 app.factory('TodoFactory', ['$resource', function($resource) {
 	return $resource('/todo', {});
