@@ -1,9 +1,28 @@
-	
+<h1>TodoList</h1>
 <accordion close-others="false">
-    <accordion-group ng-repeat="task in todolist" is-open="task.collapse">
-        <accordion-heading>
-           <progressbar max="100" value="getProgressValue(task.state)" type="{{getProgressType(task.state)}}"></progressbar> {{task.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': task.collapse, 'glyphicon-chevron-right': !task.collapse}"></i>
-        </accordion-heading>
-        {{task.description}}
-    </accordion-group>
-  </accordion>
+	<accordion-group ng-repeat="task in todolist" is-open="task.collapse">
+		<accordion-heading>
+			#{{task.id}} {{task.title}}
+			<a ng-click="remove($event, task.id)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
+			<a ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>
+		</accordion-heading>
+	<p >
+		{{task.description}}
+	</p>
+	
+	<form role="form" ng-show="task.editMode">
+		<div class="form-group">
+			<label>Title</label>
+			<input ng-model="task.title" class="form-control" ></input>
+		</div>
+		<div class="form-group">
+			<label>Description</label>	
+			<textarea ng-model="task.description" class="form-control" ></textarea>
+		</div>
+		<a type="submit" ng-click="validateModifications(task)" class="btn btn-primary">Valider les modifications</a>
+	</form>
+	</accordion-group>
+</accordion>
+  <!-- 
+  <progressbar max="100" value="getProgressValue(task.state)" type="{{getProgressType(task.state)}}"></progressbar>
+   -->

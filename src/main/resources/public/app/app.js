@@ -17,7 +17,25 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory)
     $scope.params = $routeParams;
 
     $scope.todolist = TodoFactory.query();
-    console.log($scope.todolist);
+    
+    $scope.remove = function(event, id){
+    	event.stopPropagation();
+    };
+    
+    $scope.turnToEditMode = function(event, task){
+    	event.stopPropagation();
+    	
+    	if(task.editMode){
+    		$scope.validateModifications(task);
+    	} else {
+    		task.editMode = true;
+    		task.collapse = true;
+    	}
+    }
+    
+    $scope.validateModifications = function(task){
+    	task.editMode = false;
+    };
     
     $scope.getProgressType = function(state){
     	if(state == "notFinished")
