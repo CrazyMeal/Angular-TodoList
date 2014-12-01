@@ -1,3 +1,9 @@
-
 	
-		<div ng-repeat="task in todolist" collapse="{{task.collapse}}">{{task.title}}<span >{{task.description}}</span></div>
+<accordion close-others="false">
+    <accordion-group ng-repeat="task in todolist" is-open="task.collapse">
+        <accordion-heading>
+            {{task.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': task.collapse, 'glyphicon-chevron-right': !task.collapse}"></i>
+        </accordion-heading>
+        {{task.description}}
+    </accordion-group>
+  </accordion>
