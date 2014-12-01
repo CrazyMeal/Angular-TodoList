@@ -1,8 +1,10 @@
 <h1>TodoList</h1>
+<a ng-click="postnew()" class="btn btn-primary">POST</a>
 <accordion close-others="false">
 	<accordion-group ng-repeat="task in todolist" is-open="task.collapse">
 		<accordion-heading>
-			#{{task.id}} {{task.title}}
+			{{task.title}}
+			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': task.collapse, 'glyphicon-chevron-right': !task.collapse}"></i>
 			<a ng-click="remove($event, task.id)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
 			<a ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>
 		</accordion-heading>

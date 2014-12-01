@@ -46,13 +46,19 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory)
     		return 'warning';
     	else return 'info';
     };
-    $scope.getProgressValue = function(state){
-    	if(state == "notFinished")
-    		return 10;
-    	if(state == "finished")
-    		return 100;
-    	if(state == "inProgress")
-    		return 50;
-    	else return 50;
+    
+    $scope.postnew = function(){
+    	$scope.todoTaskPost = new TodoFactory();
+    	$scope.todoTaskPost.title = "Un titre de ouf";
+    	$scope.todoTaskPost.description = "Description de malade";
+    	//$scope.createTodoTask = function(){
+    		
+    		$scope.todoTaskPost.$save();
+    		
+    	//};
     };
+});
+
+app.controller('CreateTodoTaskController', function($scope, $routeParams, TodoFactory) {
+	
 });
