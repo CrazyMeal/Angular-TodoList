@@ -4,7 +4,7 @@ app.factory('TodoFactory', ['$resource', function($resource) {
     return $resource('/todo', {}, {
     	'update': { method: 'PUT'},
     	'save':   { method: 'POST'},
-    	'remove': { method:'DELETE'}
+    	'delete': { method: 'DELETE'}
     });
 }]);
 app.config(function($routeProvider, $locationProvider) {
@@ -37,8 +37,16 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	
     };
     
-    $scope.remove = function(event, id){
+    $scope.remove = function(event, taskId){
+    	console.log('REMOVE');
+    	$scope.todoTaskPost = new TodoFactory();
+    	$scope.todoTaskPost.id = -taskId;
+    	$scope.todoTaskPost.$save();
     	event.stopPropagation();
+    	var refresh = function(){
+    		$scope.todolist = TodoFactory.query();
+    	}
+    	$timeout(refresh, 200);
     };
     
     $scope.turnToEditMode = function(event, task){
@@ -65,7 +73,6 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     		return 'warning';
     	else return 'info';
     };
-    
     $scope.updateTask = function(task){
     	task.editMode = false;
     	$scope.todoTaskPost = new TodoFactory();
@@ -78,10 +85,9 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	var refresh = function(){
     		$scope.todolist = TodoFactory.query();
     		task.collapse = true;
-    		console.log($scope.todolist);
-    		$scope.$apply();
+    		//$scope.$apply();
     	}
-    	$timeout(refresh, 500);
+    	$timeout(refresh, 200);
     	
     };
     
