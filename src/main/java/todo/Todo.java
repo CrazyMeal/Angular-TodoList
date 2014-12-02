@@ -34,8 +34,4 @@ public class Todo {
 	public String getTitle() {
 		return title;
 	}
-
-	public boolean getState() {
-		return finished;
-	}
 }

@@ -30,7 +30,6 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	var tmp = TodoFactory.query();
     	tmp.$promise.then(function(result){
     		angular.forEach(result, function(task){
-    			task.collapse = false;
     			if(!task.finished)
     				$scope.notFinishedCount++;
     			else
@@ -63,13 +62,9 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	$scope.updateTask(task);
     };
     $scope.updateTask = function(task){
-    	task.editMode = false;
-    	$scope.todoTaskPost = new TodoFactory();
-    	$scope.todoTaskPost.id = task.id;
-    	$scope.todoTaskPost.title = task.title;
-    	$scope.todoTaskPost.finished = task.finished;
-    	$scope.todoTaskPost.$update();  
-    	//task.$update();
+    	delete task['editMode'];
+    	console.log(task);
+    	task.$update();
     };
     
     $scope.postnew = function(){

@@ -36,11 +36,11 @@ public class TodoTaskRestController {
 		Todo existing = todoTaskRepository.findById(input.getId());
 		existing.title = input.title;
 		existing.finished = input.finished;
-		todoTaskRepository.save(existing);
+		Todo saved = todoTaskRepository.save(existing);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(existing.getId()).toUri());
-		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(saved,httpHeaders,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
@@ -52,7 +52,6 @@ public class TodoTaskRestController {
 	
 	@RequestMapping(method = RequestMethod.GET,produces = "application/json")
 	Collection<Todo> readBookmarks() {
-		//this.validateUser(userId);
 		return this.todoTaskRepository.findAll();
 	}
 	
