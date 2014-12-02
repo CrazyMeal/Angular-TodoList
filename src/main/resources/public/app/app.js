@@ -1,10 +1,9 @@
 var app = angular.module('todolist-app', ['ui.bootstrap','ngRoute','ngResource']);
 
 app.factory('TodoFactory', ['$resource', function($resource) {
-    return $resource('/todo', {}, {
+    return $resource('/todo/:id', {id: "@id"}, {
     	'update': { method: 'PUT'},
-    	'save':   { method: 'POST'},
-    	'delete': { method: 'DELETE'}
+    	'save':   { method: 'POST'}
     });
 }]);
 app.config(function($routeProvider, $locationProvider) {
@@ -29,18 +28,18 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	$scope.finishedCount = 0;
     	$scope.totalTask = 0;
     	var tmp = TodoFactory.query();
-    	var refresh = function(){
-    		angular.forEach(tmp, function(task){
+    	tmp.$promise.then(function(result){
+    		angular.forEach(result, function(task){
     			task.collapse = false;
     			if(!task.state)
     				$scope.notFinishedCount++;
     			else
     				$scope.finishedCount++;
     		});
-    		$scope.todolist = tmp;
+    		$scope.todolist = result;
     		$scope.totalTask = $scope.notFinishedCount + $scope.finishedCount;
-    	}
-    	$timeout(refresh, 800);
+    	});
+    	
     };
     
     $scope.getFinishedPercent = function(){
@@ -69,11 +68,10 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	
     	$scope.todoTaskPost.$update();
     	var refresh = function(){
-    		$scope.todolist = TodoFactory.query();
     		task.collapse = true;
+    		$scope.todolist = TodoFactory.query();
     	}
     	$timeout(refresh, 200);
-    	
     };
     
     $scope.postnew = function(){
@@ -85,11 +83,11 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	
     	$scope.todoTaskPost.$save();
     	$scope.creatingNewTodo = true;
+    	
     	var refresh = function(){
     		$scope.todolist = TodoFactory.query();
     	}
-    	$timeout(refresh, 300); 
-
+    	$timeout(refresh, 200);
     	$scope.newTodo = {
     	    	title: "",
     	    	description: ""
@@ -97,15 +95,21 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     };
     
     $scope.remove = function(event, task){
-    	$scope.todoTaskPost = new TodoFactory();
-    	$scope.todoTaskPost.id = -task.id;
-    	$scope.recalculateBalance($scope.todoTaskPost,false);
-    	$scope.todoTaskPost.$save();
+    	//var t = new TodoFactory({id:task.id});
+    	task.$delete();
+    	
+    	//$scope.todoTaskPost = new TodoFactory();
+    	//$scope.todoTaskPost.id = -task.id;
+    	$scope.recalculateBalance(task,false);
+    	
+    	//$scope.todoTaskPost.$save();
     	event.stopPropagation();
+    	
     	var refresh = function(){
     		$scope.todolist = TodoFactory.query();
     	}
     	$timeout(refresh, 200);
+    	
     };
     
     $scope.recalculateBalance = function(task, addition){
