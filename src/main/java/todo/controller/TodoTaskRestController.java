@@ -27,9 +27,35 @@ public class TodoTaskRestController {
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(result.getId()).toUri());
-		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.CREATED);
 	}
 	
+	@RequestMapping(method = RequestMethod.PUT,produces = "application/json")
+	ResponseEntity<?> update(@RequestBody TodoTask input) {
+		
+		TodoTask existing = todoTaskRepository.findById(input.getId());
+		existing.title = input.title;
+		existing.description = input.description;
+		existing.collapse = input.collapse;
+		todoTaskRepository.save(existing);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(existing.getId()).toUri());
+		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.OK);
+	}
+	@RequestMapping(method = RequestMethod.DELETE,produces = "application/json")
+	ResponseEntity<?> delete(@RequestBody TodoTask input) {
+		
+		TodoTask existing = todoTaskRepository.findById(input.getId());
+		existing.title = input.title;
+		existing.description = input.description;
+		existing.collapse = input.collapse;
+		todoTaskRepository.save(existing);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(existing.getId()).toUri());
+		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.OK);
+	}
 	@RequestMapping(method = RequestMethod.GET,produces = "application/json")
 	Collection<TodoTask> readBookmarks() {
 		//this.validateUser(userId);

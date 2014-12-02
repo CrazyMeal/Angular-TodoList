@@ -1,3 +1,4 @@
+<span ng-init="init()"></span>
 <h1>TodoList</h1>
 
 <h4 class="center"><a ng-click="creatingNewTodo = !creatingNewTodo" class="btn btn-success">Ajouter un nouveau ToDo</a></h4>
@@ -35,7 +36,7 @@
 			<label>Description</label>	
 			<textarea ng-model="task.description" class="form-control" ></textarea>
 		</div>
-		<a type="submit" ng-click="validateModifications(task)" class="btn btn-primary">Valider les modifications</a>
+		<a type="submit" ng-click="updateTask(task)" class="btn btn-primary">Valider les modifications</a>
 	</form>
 	</accordion-group>
 </accordion>
