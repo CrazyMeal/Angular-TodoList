@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import todo.TodoTask;
-import todo.TodoTaskRepository;
+import todo.Todo;
+import todo.TodoRepository;
 
 @RestController
 @RequestMapping("/todo")
 public class TodoTaskRestController {
-	private final TodoTaskRepository todoTaskRepository;
+	private final TodoRepository todoTaskRepository;
 	
 	@RequestMapping(method = RequestMethod.POST,produces = "application/json")
-	ResponseEntity<?> add(@RequestBody TodoTask input) {
-		TodoTask result = todoTaskRepository.save(new TodoTask(input.title));
+	ResponseEntity<?> add(@RequestBody Todo input) {
+		Todo result = todoTaskRepository.save(new Todo(input.title));
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(result.getId()).toUri());
@@ -31,9 +31,9 @@ public class TodoTaskRestController {
 	}
 	
 	@RequestMapping(value ="/{id}", method = RequestMethod.PUT,produces = "application/json")
-	ResponseEntity<?> update(@PathVariable Long id,@RequestBody TodoTask input) {
+	ResponseEntity<?> update(@PathVariable Long id,@RequestBody Todo input) {
 		
-		TodoTask existing = todoTaskRepository.findById(input.getId());
+		Todo existing = todoTaskRepository.findById(input.getId());
 		existing.title = input.title;
 		existing.finished = input.finished;
 		todoTaskRepository.save(existing);
@@ -51,13 +51,13 @@ public class TodoTaskRestController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,produces = "application/json")
-	Collection<TodoTask> readBookmarks() {
+	Collection<Todo> readBookmarks() {
 		//this.validateUser(userId);
 		return this.todoTaskRepository.findAll();
 	}
 	
 	@Autowired
-	TodoTaskRestController(TodoTaskRepository todoTaskRepository) {
+	TodoTaskRestController(TodoRepository todoTaskRepository) {
 		this.todoTaskRepository = todoTaskRepository;
 	}
 }

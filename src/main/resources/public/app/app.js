@@ -31,13 +31,14 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	tmp.$promise.then(function(result){
     		angular.forEach(result, function(task){
     			task.collapse = false;
-    			if(!task.state)
+    			if(!task.finished)
     				$scope.notFinishedCount++;
     			else
     				$scope.finishedCount++;
     		});
     		$scope.todolist = result;
     		$scope.totalTask = $scope.notFinishedCount + $scope.finishedCount;
+    		console.log($scope.todolist);
     	});
     	
     };
@@ -67,7 +68,8 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	$scope.todoTaskPost.id = task.id;
     	$scope.todoTaskPost.title = task.title;
     	$scope.todoTaskPost.finished = task.finished;
-    	$scope.todoTaskPost.$update();    	
+    	$scope.todoTaskPost.$update();  
+    	//task.$update();
     };
     
     $scope.postnew = function(){

@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class TodoTask {
+public class Todo {
 	
 	@Id
 	@GeneratedValue
@@ -13,24 +13,18 @@ public class TodoTask {
 	
 	public String title;
 	public boolean finished;
-	public boolean collapse;
-	
-	
-	
 
-	TodoTask() { // jpa only
+	Todo() { // jpa only
 	}
 	
-	public TodoTask(String title){
+	public Todo(String title){
 		this.title = title;
 		this.finished = false;
-		this.collapse = false;
 	}
 	
-	public TodoTask(String title, boolean finished){
+	public Todo(String title, boolean finished){
 		this.title = title;
 		this.finished = finished;
-		this.collapse = false;
 	}
 	
 	public Long getId() {
@@ -43,9 +37,5 @@ public class TodoTask {
 
 	public boolean getState() {
 		return finished;
-	}
-
-	public boolean isCollapse() {
-		return collapse;
 	}
 }
