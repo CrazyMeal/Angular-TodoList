@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import todo.model.Todo;
+import todo.repository.TodoRepository;
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
