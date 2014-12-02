@@ -35,7 +35,7 @@ public class TodoTaskRestController {
 		
 		TodoTask existing = todoTaskRepository.findById(input.getId());
 		existing.title = input.title;
-		existing.collapse = input.collapse;
+		existing.finished = input.finished;
 		todoTaskRepository.save(existing);
 
 		HttpHeaders httpHeaders = new HttpHeaders();

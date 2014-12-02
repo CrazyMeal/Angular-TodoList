@@ -16,10 +16,11 @@
 
 	<div ng-repeat="task in todolist" class="panel panel-default">
 		<div class="panel-heading">
-			#{{task.id}} {{task.title}}
+			{{task.title}} {{task.finished}}
 			<i class="pull-left glyphicon glyphicon-chevron-right customChevron" ></i>
 			<a ng-click="remove($event, task)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
-			<a ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>
+			<a ng-show="!task.finished" ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>
+			<a ng-show="!task.finished" ng-click="validateTask(task)" class="btn pull-right glyphicon glyphicon-ok removeButton"></a>
 		</div>
 	
 	<form role="form" collapse="!task.editMode">

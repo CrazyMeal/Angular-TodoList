@@ -54,18 +54,19 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     		$scope.updateTask(task);
     	} else {
     		task.editMode = true;
-    		task.collapse = true;
     	}
     };
-    
+    $scope.validateTask = function(task){
+    	task.finished = true;
+    	$scope.finishedCount++;
+    	$scope.updateTask(task);
+    };
     $scope.updateTask = function(task){
     	task.editMode = false;
     	$scope.todoTaskPost = new TodoFactory();
     	$scope.todoTaskPost.id = task.id;
     	$scope.todoTaskPost.title = task.title;
-    	$scope.todoTaskPost.description = task.description;
-    	$scope.todoTaskPost.collapse = task.collapse;
-
+    	$scope.todoTaskPost.finished = task.finished;
     	$scope.todoTaskPost.$update();    	
     };
     
