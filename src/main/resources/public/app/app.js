@@ -46,7 +46,10 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	return ($scope.finishedCount * 100) / $scope.totalTask;
     };
     
-    
+    $scope.getDoneClass = function(finished){
+    	if(finished)
+    		return 'done';
+    };
     $scope.turnToEditMode = function(event, task){
     	event.stopPropagation();
     	

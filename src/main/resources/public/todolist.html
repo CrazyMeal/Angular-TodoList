@@ -14,9 +14,9 @@
 	<a type="submit" ng-click="postnew()" class="btn btn-primary">Créer la Todo</a>
 </form>
 
-	<div ng-repeat="task in todolist" class="panel panel-default">
-		<div class="panel-heading">
-			{{task.title}} {{task.finished}}
+	<div ng-repeat="task in todolist | orderBy: ['finished','-id']" class="panel panel-default">
+		<div ng-class="getDoneClass(task.finished)" class="panel-heading">
+			{{task.title}}
 			<i class="pull-left glyphicon glyphicon-chevron-right customChevron" ></i>
 			<a ng-click="remove($event, task)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
 			<a ng-show="!task.finished" ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>

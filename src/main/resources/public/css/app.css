@@ -4,6 +4,9 @@ body{
 h1{
 	color: white;
 }
+.panel-default > .done {
+  text-decoration: line-through;
+}
 .customChevron{
 	padding-right: 5px;
 }

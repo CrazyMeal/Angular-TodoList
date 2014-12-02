@@ -18,7 +18,7 @@ import todo.TodoRepository;
 
 @RestController
 @RequestMapping("/todo")
-public class TodoTaskRestController {
+public class TodoRestController {
 	private final TodoRepository todoTaskRepository;
 	
 	@RequestMapping(method = RequestMethod.POST,produces = "application/json")
@@ -56,7 +56,7 @@ public class TodoTaskRestController {
 	}
 	
 	@Autowired
-	TodoTaskRestController(TodoRepository todoTaskRepository) {
+	TodoRestController(TodoRepository todoTaskRepository) {
 		this.todoTaskRepository = todoTaskRepository;
 	}
 }
