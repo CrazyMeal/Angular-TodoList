@@ -21,10 +21,11 @@ public class Application {
 
 			@Override
 			public void run(String... arg0) throws Exception {
-				for(String s : Arrays.asList("Bring sugar,Watch TV, Buy milk".split(","))){
+				for(String s : Arrays.asList("Acheter du pain, Poster des lettres, Nourir le chat".split(","))){
 					accountRepository.save(new Todo(s));
 				}
-				accountRepository.save(new Todo("Un tache finie", true));
+				accountRepository.save(new Todo("Faire le projet Todo", true));
+				accountRepository.save(new Todo("Se préparer à la nuit de l'info", true));
 			}	
 		};
 		return runner;
