@@ -1,6 +1,9 @@
 <span ng-init="init()"></span>
-<h1>TodoList</h1>
-
+<div id="header">
+	<h1>TodoList</h1>
+	<progressbar value="getFinishedPercent()" type="info"><span style="color:black; white-space:nowrap;">{{finishedCount}} / {{totalTask}}</span></progressbar>
+	
+</div>
 <h4 class="center"><a ng-click="creatingNewTodo = !creatingNewTodo" class="btn btn-success">Ajouter un nouveau ToDo</a></h4>
 
 <form id="creationForm" role="form" collapse="creatingNewTodo">
@@ -18,9 +21,9 @@
 <accordion close-others="true">
 	<accordion-group ng-repeat="task in todolist" is-open="task.collapse">
 		<accordion-heading>
-			#{{task.id}} {{task.title}}
+			{{task.title}}
 			<i class="pull-left glyphicon customChevron" ng-class="{'glyphicon-chevron-down': task.collapse, 'glyphicon-chevron-right': !task.collapse}"></i>
-			<a ng-click="remove($event, task.id)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
+			<a ng-click="remove($event, task)" class="btn pull-right glyphicon glyphicon-remove removeButton"></a>
 			<a ng-click="turnToEditMode($event, task)" class="btn pull-right glyphicon  glyphicon glyphicon-pencil removeButton"></a>
 		</accordion-heading>
 	<p >

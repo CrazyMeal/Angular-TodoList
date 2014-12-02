@@ -24,6 +24,7 @@ public class Application {
 				for(String s : Arrays.asList("Bring sugar,Watch TV, Buy milk".split(","))){
 					TodoTask tt = accountRepository.save(new TodoTask(s, "description"));
 				}
+				accountRepository.save(new TodoTask("Un tache finie", "Elle est finie !", true));
 			}	
 		};
 		return runner;

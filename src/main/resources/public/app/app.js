@@ -25,54 +25,40 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     };
     
     $scope.init = function(){
+    	$scope.notFinishedCount = 0;
+    	$scope.finishedCount = 0;
+    	$scope.totalTask = 0;
     	var tmp = TodoFactory.query();
     	var refresh = function(){
     		angular.forEach(tmp, function(task){
     			task.collapse = false;
+    			if(!task.state)
+    				$scope.notFinishedCount++;
+    			else
+    				$scope.finishedCount++;
     		});
     		$scope.todolist = tmp;
+    		$scope.totalTask = $scope.notFinishedCount + $scope.finishedCount;
     	}
-    	$timeout(refresh, 100);
-    	
-    	
+    	$timeout(refresh, 800);
     };
     
-    $scope.remove = function(event, taskId){
-    	console.log('REMOVE');
-    	$scope.todoTaskPost = new TodoFactory();
-    	$scope.todoTaskPost.id = -taskId;
-    	$scope.todoTaskPost.$save();
-    	event.stopPropagation();
-    	var refresh = function(){
-    		$scope.todolist = TodoFactory.query();
-    	}
-    	$timeout(refresh, 200);
+    $scope.getFinishedPercent = function(){
+    	return ($scope.finishedCount * 100) / $scope.totalTask;
     };
+    
     
     $scope.turnToEditMode = function(event, task){
     	event.stopPropagation();
     	
     	if(task.editMode){
-    		$scope.validateModifications(task);
+    		$scope.updateTask(task);
     	} else {
     		task.editMode = true;
     		task.collapse = true;
     	}
-    }
-    
-    $scope.validateModifications = function(task){
-    	task.editMode = false;
     };
     
-    $scope.getProgressType = function(state){
-    	if(state == "notFinished")
-    		return 'danger';
-    	if(state == "finished")
-    		return 'success';
-    	if(state == "inProgress")
-    		return 'warning';
-    	else return 'info';
-    };
     $scope.updateTask = function(task){
     	task.editMode = false;
     	$scope.todoTaskPost = new TodoFactory();
@@ -85,7 +71,6 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	var refresh = function(){
     		$scope.todolist = TodoFactory.query();
     		task.collapse = true;
-    		//$scope.$apply();
     	}
     	$timeout(refresh, 200);
     	
@@ -95,7 +80,9 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	$scope.todoTaskPost = new TodoFactory();
     	$scope.todoTaskPost.title = $scope.newTodo.title;
     	$scope.todoTaskPost.description = $scope.newTodo.description;
-    		
+    	$scope.todoTaskPost.finished = false;
+    	$scope.recalculateBalance($scope.todoTaskPost,true);
+    	
     	$scope.todoTaskPost.$save();
     	$scope.creatingNewTodo = true;
     	var refresh = function(){
@@ -108,8 +95,34 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	    	description: ""
     	};
     };
-});
-
-app.controller('CreateTodoTaskController', function($scope, $routeParams, TodoFactory) {
-	
+    
+    $scope.remove = function(event, task){
+    	$scope.todoTaskPost = new TodoFactory();
+    	$scope.todoTaskPost.id = -task.id;
+    	$scope.recalculateBalance($scope.todoTaskPost,false);
+    	$scope.todoTaskPost.$save();
+    	event.stopPropagation();
+    	var refresh = function(){
+    		$scope.todolist = TodoFactory.query();
+    	}
+    	$timeout(refresh, 200);
+    };
+    
+    $scope.recalculateBalance = function(task, addition){
+    	if(addition){
+    		if(task.finished){
+    			$scope.finishedCount++;
+    		} else {
+    			$scope.notFinishedCount++;
+    		}
+    		$scope.totalTask++;
+    	} else {
+    		if(task.finished){
+    			$scope.finishedCount--;
+    		} else {
+    			$scope.notFinishedCount--;
+    		}
+    		$scope.totalTask--;
+    	}
+    };
 });

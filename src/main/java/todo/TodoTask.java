@@ -13,7 +13,7 @@ public class TodoTask {
 	
 	public String title;
 	public String description;
-	public State state;
+	public boolean finished;
 	public boolean collapse;
 	
 	
@@ -25,9 +25,15 @@ public class TodoTask {
 	public TodoTask(String title, String description){
 		this.title = title;
 		this.description = description;
-		this.state = State.notFinished;
+		this.finished = false;
 		this.collapse = false;
-		//this.owner = owner;
+	}
+	
+	public TodoTask(String title, String description, boolean finished){
+		this.title = title;
+		this.description = description;
+		this.finished = finished;
+		this.collapse = false;
 	}
 	
 	public Long getId() {
@@ -41,8 +47,8 @@ public class TodoTask {
 		return title;
 	}
 
-	public State getState() {
-		return state;
+	public boolean getState() {
+		return finished;
 	}
 
 	public boolean isCollapse() {
