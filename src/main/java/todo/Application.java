@@ -22,9 +22,9 @@ public class Application {
 			@Override
 			public void run(String... arg0) throws Exception {
 				for(String s : Arrays.asList("Bring sugar,Watch TV, Buy milk".split(","))){
-					TodoTask tt = accountRepository.save(new TodoTask(s, "description"));
+					TodoTask tt = accountRepository.save(new TodoTask(s));
 				}
-				accountRepository.save(new TodoTask("Un tache finie", "Elle est finie !", true));
+				accountRepository.save(new TodoTask("Un tache finie", true));
 			}	
 		};
 		return runner;

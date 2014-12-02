@@ -12,7 +12,6 @@ public class TodoTask {
 	private Long id;
 	
 	public String title;
-	public String description;
 	public boolean finished;
 	public boolean collapse;
 	
@@ -22,25 +21,20 @@ public class TodoTask {
 	TodoTask() { // jpa only
 	}
 	
-	public TodoTask(String title, String description){
+	public TodoTask(String title){
 		this.title = title;
-		this.description = description;
 		this.finished = false;
 		this.collapse = false;
 	}
 	
-	public TodoTask(String title, String description, boolean finished){
+	public TodoTask(String title, boolean finished){
 		this.title = title;
-		this.description = description;
 		this.finished = finished;
 		this.collapse = false;
 	}
 	
 	public Long getId() {
 		return id;
-	}
-	public String getDescription() {
-		return description;
 	}
 
 	public String getTitle() {

@@ -23,11 +23,11 @@ public class TodoTaskRestController {
 	
 	@RequestMapping(method = RequestMethod.POST,produces = "application/json")
 	ResponseEntity<?> add(@RequestBody TodoTask input) {
-		TodoTask result = todoTaskRepository.save(new TodoTask(input.title, input.description));
+		TodoTask result = todoTaskRepository.save(new TodoTask(input.title));
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/todo").buildAndExpand(result.getId()).toUri());
-		return new ResponseEntity<>("{\"success\" : \"true\"}",httpHeaders,HttpStatus.CREATED);
+		return new ResponseEntity<>(result,httpHeaders,HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value ="/{id}", method = RequestMethod.PUT,produces = "application/json")
@@ -35,7 +35,6 @@ public class TodoTaskRestController {
 		
 		TodoTask existing = todoTaskRepository.findById(input.getId());
 		existing.title = input.title;
-		existing.description = input.description;
 		existing.collapse = input.collapse;
 		todoTaskRepository.save(existing);
 

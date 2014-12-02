@@ -65,29 +65,21 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     	$scope.todoTaskPost.title = task.title;
     	$scope.todoTaskPost.description = task.description;
     	$scope.todoTaskPost.collapse = task.collapse;
-    	
-    	$scope.todoTaskPost.$update();
-    	var refresh = function(){
-    		task.collapse = true;
-    		$scope.todolist = TodoFactory.query();
-    	}
-    	$timeout(refresh, 200);
+
+    	$scope.todoTaskPost.$update();    	
     };
     
     $scope.postnew = function(){
     	$scope.todoTaskPost = new TodoFactory();
     	$scope.todoTaskPost.title = $scope.newTodo.title;
-    	$scope.todoTaskPost.description = $scope.newTodo.description;
     	$scope.todoTaskPost.finished = false;
+    	
     	$scope.recalculateBalance($scope.todoTaskPost,true);
     	
     	$scope.todoTaskPost.$save();
     	$scope.creatingNewTodo = true;
     	
-    	var refresh = function(){
-    		$scope.todolist = TodoFactory.query();
-    	}
-    	$timeout(refresh, 200);
+    	$scope.todolist.unshift($scope.todoTaskPost);
     	$scope.newTodo = {
     	    	title: "",
     	    	description: ""
@@ -95,21 +87,11 @@ app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory,
     };
     
     $scope.remove = function(event, task){
-    	//var t = new TodoFactory({id:task.id});
     	task.$delete();
-    	
-    	//$scope.todoTaskPost = new TodoFactory();
-    	//$scope.todoTaskPost.id = -task.id;
     	$scope.recalculateBalance(task,false);
-    	
-    	//$scope.todoTaskPost.$save();
     	event.stopPropagation();
     	
-    	var refresh = function(){
-    		$scope.todolist = TodoFactory.query();
-    	}
-    	$timeout(refresh, 200);
-    	
+    	$scope.todolist.splice($scope.todolist.indexOf(task),1);
     };
     
     $scope.recalculateBalance = function(task, addition){
