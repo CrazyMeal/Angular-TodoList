@@ -6,16 +6,8 @@ app.factory('TodoFactory', ['$resource', function($resource) {
     	'save':   { method: 'POST'}
     });
 }]);
-app.config(function($routeProvider, $locationProvider) {
-	  
-	$routeProvider
-	   .when('/', {
-		   templateUrl: 'todolist.html',
-		   controller: 'TodoTaskController'
-	   });
-});
 
-app.controller('TodoTaskController', function($scope, $routeParams, TodoFactory, $timeout) {
+app.controller('TodoController', function($scope, $routeParams, TodoFactory, $timeout) {
     $scope.params = $routeParams;
     $scope.creatingNewTodo = true;
     $scope.newTodo = {
