@@ -16,28 +16,41 @@ app.controller('TodoController', function($scope, $routeParams, TodoFactory, $ti
     };
     
     $scope.init = function(){
-    	$scope.notFinishedCount = 0;
-    	$scope.finishedCount = 0;
+    	$scope.counters = [
+							{
+								   type: 'finished',
+								   count: 0
+							},
+    	                   {
+    	                	   type: 'notFinished',
+    	                	   count: 0
+    	                   }];
     	$scope.totalTask = 0;
     	var tmp = TodoFactory.query();
     	tmp.$promise.then(function(result){
     		angular.forEach(result, function(task){
-    			if(!task.finished)
-    				$scope.notFinishedCount++;
-    			else
-    				$scope.finishedCount++;
+    			if(!task.finished){
+    				$scope.counters[1].count++;
+    			}
+    			else{
+    				$scope.counters[0].count++;
+    			}
     		});
     		$scope.todolist = result;
-    		$scope.totalTask = $scope.notFinishedCount + $scope.finishedCount;
-    		console.log($scope.todolist);
-    	});
-    	
+    		$scope.totalTask = $scope.counters[0].count + $scope.counters[1].count;
+    		
+    	});	
     };
     
-    $scope.getFinishedPercent = function(){
-    	return ($scope.finishedCount * 100) / $scope.totalTask;
+    $scope.getPercent = function(count){
+    	return (count * 100) / $scope.totalTask;
     };
-    
+    $scope.getBarType = function(type){
+    	if(type == 'finished')
+    		return 'success';
+    	else
+    		return 'danger';
+    };
     $scope.getDoneClass = function(finished){
     	if(finished)
     		return 'done';
@@ -53,30 +66,32 @@ app.controller('TodoController', function($scope, $routeParams, TodoFactory, $ti
     };
     $scope.validateTask = function(task){
     	task.finished = true;
-    	$scope.finishedCount++;
+    	$scope.counters[0].count++;
+    	$scope.counters[1].count--;
     	$scope.updateTask(task);
     };
     $scope.updateTask = function(task){
     	delete task['editMode'];
-    	console.log(task);
     	task.$update();
     };
     
     $scope.postnew = function(){
-    	$scope.todoTaskPost = new TodoFactory();
-    	$scope.todoTaskPost.title = $scope.newTodo.title;
-    	$scope.todoTaskPost.finished = false;
-    	
-    	$scope.recalculateBalance($scope.todoTaskPost,true);
-    	
-    	$scope.todoTaskPost.$save();
-    	$scope.creatingNewTodo = true;
-    	
-    	$scope.todolist.unshift($scope.todoTaskPost);
-    	$scope.newTodo = {
-    	    	title: "",
-    	    	description: ""
-    	};
+    	if($scope.newTodo.title != ""){
+	    	$scope.todoTaskPost = new TodoFactory();
+	    	$scope.todoTaskPost.title = $scope.newTodo.title;
+	    	$scope.todoTaskPost.finished = false;
+	    	
+	    	$scope.recalculateBalance($scope.todoTaskPost,true);
+	    	
+	    	$scope.todoTaskPost.$save();
+	    	$scope.creatingNewTodo = true;
+	    	
+	    	$scope.todolist.unshift($scope.todoTaskPost);
+	    	$scope.newTodo = {
+	    	    	title: "",
+	    	    	description: ""
+	    	};
+    	}
     };
     
     $scope.remove = function(event, task){
@@ -90,16 +105,16 @@ app.controller('TodoController', function($scope, $routeParams, TodoFactory, $ti
     $scope.recalculateBalance = function(task, addition){
     	if(addition){
     		if(task.finished){
-    			$scope.finishedCount++;
+    			$scope.counters[0].count++;
     		} else {
-    			$scope.notFinishedCount++;
+    			$scope.counters[1].count++;
     		}
     		$scope.totalTask++;
     	} else {
     		if(task.finished){
-    			$scope.finishedCount--;
+    			$scope.counters[0].count--;
     		} else {
-    			$scope.notFinishedCount--;
+    			$scope.counters[1].count--;
     		}
     		$scope.totalTask--;
     	}

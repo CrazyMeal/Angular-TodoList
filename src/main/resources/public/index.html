@@ -13,12 +13,10 @@
 				<h1>TodoList</h1>
 				<div id="progression">
 					<span id="progressLabel">Progression:</span>
-					<progressbar value="getFinishedPercent()" type="info">
-						<span style="color:black; white-space:nowrap;">{{finishedCount}} / {{totalTask}}</span>
-					</progressbar>
+					<progress><bar ng-repeat="counter in counters" value="getPercent(counter.count)" type="{{getBarType(counter.type)}}" >{{counter.count}}/{{totalTask}}</bar></progress>
 				</div>
 			</div>
-			<h4 class="center"><a ng-click="creatingNewTodo = !creatingNewTodo" class="btn btn-success">Ajouter un nouveau ToDo</a></h4>
+			<h4 class="center"><a ng-click="creatingNewTodo = !creatingNewTodo" class="btn btn-info">Ajouter un nouveau ToDo</a></h4>
 	
 			<form id="creationForm" role="form" collapse="creatingNewTodo">
 				<div class="form-group">
