@@ -1,7 +1,7 @@
 var app = angular.module('todolist-app', ['ui.bootstrap','ngRoute','ngResource']);
 
 app.factory('TodoFactory', ['$resource', function($resource) {
-    return $resource('/todo/:id', {id: "@id"}, {
+    return $resource('./todo/:id', {id: "@id"}, {
     	'update': { method: 'PUT'},
     	'save':   { method: 'POST'}
     });
